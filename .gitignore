@@ -1,7 +1,8 @@
 
-assets
-data/input
-node_modules
+assets/
+data/
+
+node_modules/
 
 # Notes
 *_N.txt

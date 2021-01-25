@@ -3,22 +3,22 @@ const dataFiles = [
     "cc-main-210108",
     "cc-tm-main-210108",
     "tm-main-210108",
-    "calypsoscave-main-210105",
-    "calypsocave-main-210105",
-    "calipsocave-main-210106",
-    "calipsoscave-main-210106",
-    "calypsocavegozo-main-210106",
-    "calypsocaveview-main-210106",
-    "grottadicalipso-main-210106",
-    "582935286-main-210106",
-    "579372599222643-main-210106",
-    "425116534182062-main-210106",
-    "1072361276130118-main-210106",
-    "1016120985-main-210106",
-    "talmixtacave-main-210107",
-    "mixtacave-main-210107",
-    "829241613902578-main-210107",
-    "445817611-main-210108"
+    // "calypsoscave-main-210105",
+    // "calypsocave-main-210105",
+    // "calipsocave-main-210106",
+    // "calipsoscave-main-210106",
+    // "calypsocavegozo-main-210106",
+    // "calypsocaveview-main-210106",
+    // "grottadicalipso-main-210106",
+    // "582935286-main-210106",
+    // "579372599222643-main-210106",
+    // "425116534182062-main-210106",
+    // "1072361276130118-main-210106",
+    // "1016120985-main-210106",
+    // "talmixtacave-main-210107",
+    // "mixtacave-main-210107",
+    // "829241613902578-main-210107",
+    // "445817611-main-210108"
 ];
 let selectedFile = dataFiles[0];
 
@@ -28,7 +28,7 @@ let j = 0;
 
 const fetchData = async(filename) => {
     try {
-        let requestUrl = `/data/${ filename }.json`;
+        let requestUrl = `/data-main/${ filename }.json`;
         let response = await fetch(requestUrl);
         return await response.json();
     } catch(err){
