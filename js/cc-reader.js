@@ -52,11 +52,12 @@ const initData = async(filename) => {
 initData(selectedFile);
 
 
-const idContainer = document.querySelector(".id");
+const idContainer = document.querySelector(".id")
 const locationIdContainer = document.querySelector(".location-id")
 const locationNameContainer = document.querySelector(".location-name")
-const dateContainer = document.querySelector(".datetime");
+const dateContainer = document.querySelector(".datetime")
 const timestampContainer = document.querySelector(".timestamp")
+const qIndexContainer = document.querySelector(".qIndex")
 
 const captionContainer = document.querySelector(".caption");
 const imagesContainer = document.querySelector("#images-container");
@@ -90,6 +91,8 @@ function populateReader(i, d) {
     timestampContainer.innerHTML = `timestamp: ${timestamp}`
     let datetime = timeConverter(timestamp);
     dateContainer.innerHTML = datetime;
+    let qIndex = d[i].queryIndex;
+    qIndexContainer.innerHTML = qIndex;
     
     // let imgUrl = d[i].display_url;
     // imgUrlContainer.href = imgUrl; // instagram source link
@@ -198,51 +201,48 @@ function sortByKeyDesc(array, key) {
 // function convert unix timestamp to date / time
 function timeConverter(UNIX_timestamp){
 	var a = new Date(UNIX_timestamp * 1000);
-	var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-	var year = a.getFullYear();
-    // var month = months[a.getMonth()];
-    // month as 2 digits (MM)
-    var month = ("0" + (a.getMonth() + 1)).slice(-2);
-	// date as 2 digits (DD)
-    var date = ("0" + a.getDate()).slice(-2);
-
-    // hours as 2 digits (hh)
-    var hour = ("0" + a.getHours()).slice(-2);
-
-    // minutes as 2 digits (mm)
-    var min = ("0" + a.getMinutes()).slice(-2);
-
-    // seconds as 2 digits (ss)
-    var sec = ("0" + a.getSeconds()).slice(-2);
-
-    // date & time as YYYY-MM-DD hh:mm:ss format:
-    // var time = year + "-" + month + "-" + date + " " + hour + ":" + min + ":" + sec;
-    //var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
     // ISO 8601 "2011-12-19T15:28:46.493Z"
     var time = a.toISOString();
     return time;
+
+    // // Friendly Format
+    // var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+	// var year = a.getFullYear();
+    // // month as 2 digits (MM)
+    // var month = ("0" + (a.getMonth() + 1)).slice(-2);
+	// // date as 2 digits (DD)
+    // var date = ("0" + a.getDate()).slice(-2);
+    // // hours as 2 digits (hh)
+    // var hour = ("0" + a.getHours()).slice(-2);
+    // // minutes as 2 digits (mm)
+    // var min = ("0" + a.getMinutes()).slice(-2);
+    // // seconds as 2 digits (ss)
+    // var sec = ("0" + a.getSeconds()).slice(-2);
+
+    // // date & time as YYYY-MM-DD hh:mm:ss format:
+    // // var time = year + "-" + month + "-" + date + " " + hour + ":" + min + ":" + sec;
+    // // var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
 }
 
 
 
-// to do 
 // function go to ID
-// add fixed index (query-index) to sorted data array
-// map()
+// add fixed index (query-index) key value pair to sorted data (array of objects)
+// -> map()
 // get query-index where ID == query-id
 // populate reader (i = query-index )
 function goToId() {
-    let input, id, qIndex;
+    let input, id, queryIndex;
     input = document.getElementById("go-to-id");
     id = input.value;
     console.log(id);
     for (let i=0; i < posts.length; i++) {
         if (posts[i].id === id) {
-            qIndex = posts[i].queryIndex;
+            queryIndex = posts[i].queryIndex;
         }
     }
-    console.log(qIndex);
-    i = qIndex;
+    console.log(queryIndex);
+    i = queryIndex;
     populateReader(i, posts);
 }
 
