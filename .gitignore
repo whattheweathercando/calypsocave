@@ -1,0 +1,28 @@
+
+assets
+node_modules
+
+# Notes
+*_N.txt
+
+# visual studio code workspace #
+######################
+*.code-workspace
+
+# sublime text project #
+######################
+*.sublime-project
+*.sublime-workspace
+
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+
