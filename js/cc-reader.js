@@ -41,6 +41,8 @@ const initData = async(filename) => {
         posts = data.GraphImages;
         posts = sortByKeyAsc(posts, "taken_at_timestamp");
         console.log(posts); // fetched posts
+        posts = posts.map( (v, index) => ({...v, queryIndex: index }))
+        console.log("Posts indexed: ", posts);
         // console.log(posts[0].edge_media_to_caption.edges[0].node.text); // test access fetched posts
         populateReader(i, posts);
     } catch(err) {
@@ -158,7 +160,7 @@ document.addEventListener("keydown", event => {
         previous();
     };
     if (event.code === "Enter"){
-        searchFilter();
+        goToId();
     }
 });
 
@@ -223,38 +225,27 @@ function timeConverter(UNIX_timestamp){
 
 
 
-
-// Search filter
-
-// const searchInput = document.querySelector("input[name='search-filter']");
-
-function searchFilter() {
-    var input, filter;
-    input = document.getElementById("search-filter");
-    filter = input.value.toUpperCase();
-    resultsContainer = document.querySelector("#results-container");
-    resultsContainer.innerHTML = "";
-    for (k = 0; k < posts.length; k++) {
-        // title = items[i].querySelector(".a-title h1");
-        post = posts[k];
-        id = post.id;
-
-        // check if not null/undefined
-        if (post.edge_media_to_caption.edges[0]){
-            caption = post.edge_media_to_caption.edges[0].node.text;
-        } else {
-            caption = "[no caption]";
-        }
-
-        if (caption.toUpperCase().indexOf(filter) > -1) {
-            let el = document.createElement("p");
-            let idEl = document.createElement("div")
-            el.innerHTML = caption;
-            idEl.innerHTML = `id: ${id}<br><hr>`;
-            resultsContainer.append(el);
-            resultsContainer.append(idEl);
-        } else {
-            //
+// to do 
+// function go to ID
+// add fixed index (query-index) to sorted data array
+// map()
+// get query-index where ID == query-id
+// populate reader (i = query-index )
+function goToId() {
+    let input, id, qIndex;
+    input = document.getElementById("go-to-id");
+    id = input.value;
+    console.log(id);
+    for (let i=0; i < posts.length; i++) {
+        if (posts[i].id === id) {
+            qIndex = posts[i].queryIndex;
         }
     }
+    console.log(qIndex);
+    i = qIndex;
+    populateReader(i, posts);
 }
+
+// To do 
+// Search filter
+// if (caption.toUpperCase().indexOf(queryString) > -1) { ..
