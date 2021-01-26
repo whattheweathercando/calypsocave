@@ -248,4 +248,29 @@ function goToId() {
 
 // To do 
 // Search filter
-// if (caption.toUpperCase().indexOf(queryString) > -1) { ..
+// array.indexOf("QUERY") -> returns only first el
+// array.filter( function ) -> returns array of all matching elements
+
+function searchFilter(){
+    let input, queryString;
+    input = document.getElementById("search-filter");
+    queryString = input.value.toLowerCase(); // toLowerCase()
+    console.log(queryString)
+    // console.log(typeof queryString)
+    const postsFiltered = posts.filter(el => {
+        if (el.edge_media_to_caption.edges[0] != undefined) {
+            // return el.edge_media_to_caption.edges[0].node.text === queryString; // exact match
+            // return caption if caption string (to lower case) contains query String
+            return el.edge_media_to_caption.edges[0].node.text.toLowerCase().includes(queryString); 
+        }
+    });
+    posts = postsFiltered;
+    i = 0;
+    console.log("Posts filtered:", posts);
+    populateReader(i, posts);
+
+}
+const searchButton = document.querySelector("#search-button");
+searchButton.addEventListener('click', searchFilter);
+
+// to do : RESET posts on new search
