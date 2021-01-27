@@ -260,8 +260,12 @@ function searchFilter(){
     const postsFiltered = posts.filter(el => {
         if (el.edge_media_to_caption.edges[0] != undefined) {
             // return el.edge_media_to_caption.edges[0].node.text === queryString; // exact match
+            
             // return caption if caption string (to lower case) contains query String
-            return el.edge_media_to_caption.edges[0].node.text.toLowerCase().includes(queryString); 
+            // return el.edge_media_to_caption.edges[0].node.text.toLowerCase().includes(queryString); 
+            
+            // search in timestamp too
+            return (el.edge_media_to_caption.edges[0].node.text.toLowerCase().includes(queryString) | el.taken_at_timestamp.toString().includes(queryString) ); 
         }
     });
     posts = postsFiltered;
