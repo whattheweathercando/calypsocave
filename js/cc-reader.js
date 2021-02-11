@@ -61,6 +61,7 @@ const qIndexContainer = document.querySelector(".qIndex")
 
 const captionContainer = document.querySelector(".caption");
 const imagesContainer = document.querySelector("#images-container");
+const commentsContainer = document.querySelector("#comments-container");
 
 function populateReader(i, d) {
     
@@ -85,7 +86,35 @@ function populateReader(i, d) {
     } else {
         captionContainer.innerHTML = "[no caption]";
     }
+    // comments
+    let commentCount = d[i].edge_media_to_comment.count
+    console.log(commentCount) 
+    let comments = d[i].edge_media_to_comment.data
+    console.log(comments)
+
+    commentsContainer.innerHTML = "";
+
+    if (commentCount == 0) {
+        commentsContainer.innerHTML = "[ no comments ]"
+    } else {
+        comments.forEach(element => {
+            let commentEl = document.createElement("p")
+            commentEl.classList.add("comment");
+            commentEl.innerHTML = element.text
+            commentsContainer.appendChild(commentEl)
+        });
+    }
     
+    // toggle comments checkbox
+    let showComments = document.querySelector('input[name="show-comments"]');
+    showComments.addEventListener('change', () => {
+        if(showComments.checked) {
+            commentsContainer.style.display = 'block';
+        } else {
+            commentsContainer.style.display = 'none';
+        }
+      });
+
 
     let timestamp = d[i].taken_at_timestamp;
     timestampContainer.innerHTML = `timestamp: ${timestamp}`
@@ -266,6 +295,7 @@ function searchFilter(){
             
             // search in timestamp too
             return (el.edge_media_to_caption.edges[0].node.text.toLowerCase().includes(queryString) | el.taken_at_timestamp.toString().includes(queryString) ); 
+            // to do : search in timestamps and comments too
         }
     });
     posts = postsFiltered;

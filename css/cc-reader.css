@@ -30,10 +30,21 @@ footer {
     font-size: 0.8rem;
     background-color: rgb(240, 240, 240);
 }
-#start-image-container {
+/* #start-image-container {
     display: none;
-}
+} */
 .image {
     height: 320px;
     width: auto;
+}
+
+#comments-container {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40%;
+    height: 100%;
+    padding: var(--main-padding);
+    background: white;
 }
