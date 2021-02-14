@@ -9,7 +9,7 @@ html {
 }
 main {
     padding: var(--main-padding);
-    padding-bottom: 6rem;
+    padding-bottom: 8rem;
 }
 footer {
     position: fixed;

@@ -90,7 +90,7 @@ function populateReader(i, d) {
     let commentCount = d[i].edge_media_to_comment.count
     console.log(commentCount) 
     let comments = d[i].edge_media_to_comment.data
-    console.log(comments)
+    // console.log(comments)
 
     commentsContainer.innerHTML = "";
 
@@ -166,7 +166,7 @@ function populateReader(i, d) {
 
 // Populate Next / previous function
 function next() {
-    if ( i < posts.length ) {
+    if ( i < posts.length-1 ) {
         i++;
         populateReader(i, posts);
     } else {
@@ -283,28 +283,39 @@ function goToId() {
 function searchFilter(){
     let input, queryString;
     input = document.getElementById("search-filter");
-    queryString = input.value.toLowerCase(); // toLowerCase()
+    queryString = input.value.toLowerCase();
     console.log(queryString)
     // console.log(typeof queryString)
     const postsFiltered = posts.filter(el => {
         if (el.edge_media_to_caption.edges[0] != undefined) {
             // return el.edge_media_to_caption.edges[0].node.text === queryString; // exact match
+            let captions = el.edge_media_to_caption.edges[0].node.text
+            let timestamp = el.taken_at_timestamp
+            let comments = el.edge_media_to_comment.data
+            let commentsText = comments.map(x => x.text);
             
-            // return caption if caption string (to lower case) contains query String
-            // return el.edge_media_to_caption.edges[0].node.text.toLowerCase().includes(queryString); 
+            // search in captions, timestamps, comments
+            let elementsFiltered = captions.toLowerCase().includes(queryString) | timestamp.toString().includes(queryString) | commentsText.toString().toLowerCase().includes(queryString)
             
-            // search in timestamp too
-            return (el.edge_media_to_caption.edges[0].node.text.toLowerCase().includes(queryString) | el.taken_at_timestamp.toString().includes(queryString) ); 
-            // to do : search in timestamps and comments too
+            return elementsFiltered;
         }
     });
-    posts = postsFiltered;
-    i = 0;
-    console.log("Posts filtered:", posts);
-    populateReader(i, posts);
+    console.log(postsFiltered.length)
+    if (postsFiltered.length > 0){
+        posts = postsFiltered;
+        i = 0;
+        console.log("Posts filtered:", posts);
+        populateReader(i, posts);
+    } else {
+        console.log("No search results")
+    }
+    
 
 }
 const searchButton = document.querySelector("#search-button");
 searchButton.addEventListener('click', searchFilter);
+
+
+
 
 // to do : RESET posts on new search
