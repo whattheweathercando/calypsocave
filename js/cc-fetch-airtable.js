@@ -5,13 +5,14 @@ const singleRecordContainer = document.querySelector('#single-record')
 
 // Airtable variables
 const token = 'keyQEt7ap2NN2NF2h'
-const baseUrl = 'https://api.airtable.com/v0/appLR6Kx7gDtp6taX/CC-main'
-
+const baseUrl = 'https://api.airtable.com/v0/appLR6Kx7gDtp6taX'
+const table = 'CC-main'
+const views = ['all', 'key']
 
 const fetchRecords = async () => {
     try {
-        const queryParams = 'maxRecords=64&view=all'
-        const url = `${baseUrl}?${queryParams}`
+        const queryParams = `maxRecords=64&view=${views[1]}`
+        const url = `${baseUrl}/${table}?${queryParams}`
 
         const res =  await fetch(url, {
             headers: {
@@ -61,7 +62,7 @@ const initSingleRecordButtons = () => {
 const fetchSingleRecord = async (id) => {
     try {
         console.log(`Fetching record ${id}`)
-        let url = `${baseUrl}/${id}`
+        let url = `${baseUrl}/${table}/${id}`
         const response = await fetch(url, {
             headers: {
                 Authorization: `Bearer ${token}`}
@@ -76,11 +77,14 @@ const fetchSingleRecord = async (id) => {
 
 const parseSingleRecord = (record) => {
     let caption = record.fields.caption
+    let image = record.fields.image[0].url
+    let thumb = record.fields.image[0].thumbnails.large
+    let thumbUrl = thumb.url
     console.log(caption)
     let output = `
         <div>
-        <div>Record ${record.id}</div>
         <div>${caption}</div>
+        <div><img src="${thumbUrl}" width="${thumb.width}" height="${thumb.height}"></div>
     `
     singleRecordContainer.innerHTML = output
 }
