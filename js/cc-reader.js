@@ -287,18 +287,21 @@ function searchFilter(){
     console.log(queryString)
     // console.log(typeof queryString)
     const postsFiltered = posts.filter(el => {
+        let captions = ""
         if (el.edge_media_to_caption.edges[0] != undefined) {
             // return el.edge_media_to_caption.edges[0].node.text === queryString; // exact match
-            let captions = el.edge_media_to_caption.edges[0].node.text
-            let timestamp = el.taken_at_timestamp
-            let comments = el.edge_media_to_comment.data
-            let commentsText = comments.map(x => x.text);
-            
-            // search in captions, timestamps, comments
-            let elementsFiltered = captions.toLowerCase().includes(queryString) | timestamp.toString().includes(queryString) | commentsText.toString().toLowerCase().includes(queryString)
-            
-            return elementsFiltered;
+            captions = el.edge_media_to_caption.edges[0].node.text
         }
+        let timestamp = el.taken_at_timestamp
+        let imageUrl = el.display_url
+        let comments = el.edge_media_to_comment.data
+        let commentsText = comments.map(x => x.text);
+        
+        // search in captions, timestamps, comments
+        let elementsFiltered = captions.toLowerCase().includes(queryString) | timestamp.toString().includes(queryString) | commentsText.toString().toLowerCase().includes(queryString) | imageUrl.toLowerCase().includes(queryString)
+        
+        return elementsFiltered;
+        
     });
     console.log(postsFiltered.length)
     if (postsFiltered.length > 0){
