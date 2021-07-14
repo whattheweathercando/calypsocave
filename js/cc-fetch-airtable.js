@@ -7,11 +7,12 @@ const singleRecordContainer = document.querySelector('#single-record')
 const token = 'keyQEt7ap2NN2NF2h'
 const baseUrl = 'https://api.airtable.com/v0/appLR6Kx7gDtp6taX'
 const table = 'CC-main'
-const views = ['all', 'key']
+const views = ['all', 'book']
+const maxRecords = 128
 
 const fetchRecords = async () => {
     try {
-        const queryParams = `maxRecords=64&view=${views[1]}`
+        const queryParams = `maxRecords=${maxRecords}&view=${views[1]}`
         const url = `${baseUrl}/${table}?${queryParams}`
 
         const res =  await fetch(url, {
